@@ -19,9 +19,9 @@ public class PDFViewToolbar extends JToolBar
     public PDFViewToolbar(final File currentFile) {
         this.openPdfAL = new ActionListener() {
             @Override
-            public void actionPerformed(final ActionEvent e) {
+            public void actionPerformed(ActionEvent e) {
                 try {
-                    Desktop.getDesktop().open(PDFViewToolbar.this.currentPdfFile);
+                    Desktop.getDesktop().open(currentPdfFile);
                 }
                 catch (IOException e2) {
                     e2.printStackTrace();
@@ -30,8 +30,8 @@ public class PDFViewToolbar extends JToolBar
         };
         this.zoomSliderCL = new ChangeListener() {
             @Override
-            public void stateChanged(final ChangeEvent e) {
-                final PDFViewComponent pdfViewComp = ((JPDFViewer)PDFViewToolbar.this.getParent()).getView();
+            public void stateChanged(ChangeEvent e) {
+                PDFViewComponent pdfViewComp = ((JPDFViewer)PDFViewToolbar.this.getParent()).getView();
                 pdfViewComp.setZoom(PDFViewToolbar.this.zoomSlider.getValue() / 100.0f);
             }
         };
@@ -43,18 +43,4 @@ public class PDFViewToolbar extends JToolBar
         this.add(this.zoomSlider);
     }
     
-    protected enum ToolbarRules
-    {
-        TOOLS("TOOLS", 0, 0);
-        
-        private int ruleId;
-        
-        private ToolbarRules(final String s, final int n, final int id) {
-            this.ruleId = id;
-        }
-        
-        public int getId() {
-            return this.ruleId;
-        }
-    }
 }

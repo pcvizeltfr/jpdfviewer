@@ -1,8 +1,8 @@
 package fr.pcvizelt.jpdfviewer.component;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -21,17 +21,13 @@ import fr.pcvizelt.jpdfviewer.page.PDFPage;
 public class PDFViewComponent extends JComponent
 {
     private static final long serialVersionUID = 1L;
-    private static int PREVIEW_DPI;
+    private static int PREVIEW_DPI = 600;
     private float zoom;
-    private static int PREVIEW_SPACE_BETWEEN_PAGES;
+    private static int PREVIEW_SPACE_BETWEEN_PAGES =  10;
     private HashMap<Integer, PDFPage> renderPageMap;
     private File currentFile;
     private JScrollPane rootScrollPane;
-    
-    static {
-        PDFViewComponent.PREVIEW_DPI = 600;
-        PDFViewComponent.PREVIEW_SPACE_BETWEEN_PAGES = 10;
-    }
+ 
     
     public PDFViewComponent(File pdfFile) {
         this.zoom = 1.0f;
@@ -39,7 +35,6 @@ public class PDFViewComponent extends JComponent
         if (!pdfFile.exists()) {
             return;
         }
-        this.rootScrollPane = (JScrollPane)this.getParent();
         this.currentFile = pdfFile;
     }
     
@@ -60,10 +55,10 @@ public class PDFViewComponent extends JComponent
         this.repaint();
     }
     
+    float horPer ;
     @Override
     public void paint(Graphics g) {
-        g.setColor(Color.red);
-        g.drawString("test", 20, 20);
+    	
         int height = 0;
         int width = 0;
         for (final PDFPage page : this.renderPageMap.values()) {
@@ -73,8 +68,14 @@ public class PDFViewComponent extends JComponent
                 width = page.getRenderingWidth();
             }
         }
+        
+
+        
         this.setPreferredSize(new Dimension(width, height));
-        this.getParent().revalidate();
+        getParent().revalidate();
+        
+        
+        
     }
     
     public void setPreviewDotsPerInch(int dpi) {
@@ -84,7 +85,11 @@ public class PDFViewComponent extends JComponent
     
     public void setZoom(float zoom) {
         this.zoom = zoom;
-        this.updateView();
+
+        repaint();
+        
+        rootScrollPane = (JScrollPane) this.getParent().getParent();
+        rootScrollPane.getViewport().setViewPosition(new Point(getPreferredSize().width/2 - rootScrollPane.getWidth()/2, rootScrollPane.getViewport().getViewPosition().y));
     }
     
     public float getZoom() {
@@ -112,11 +117,4 @@ public class PDFViewComponent extends JComponent
         this.currentFile = currentFile;
     }
     
-    public void updateView() {
-    	this.rootScrollPane = (JScrollPane)this.getParent();
-    	
-    	
-    	
-        this.repaint();
-    }
 }
