@@ -14,7 +14,7 @@ public class PDFPage
     private float aspectRatio;
     private PDFViewComponent parent;
     
-    public PDFPage(final BufferedImage pageImage, final int pageIndex, final PDFViewComponent parentView) {
+    public PDFPage(BufferedImage pageImage, int pageIndex, PDFViewComponent parentView) {
         this.pageIndex = -1;
         this.aspectRatio = 1.0f;
         this.pageImage = pageImage;
@@ -23,7 +23,7 @@ public class PDFPage
         this.aspectRatio = 1.0f * pageImage.getWidth() / (1.0f * pageImage.getHeight());
     }
     
-    public void draw(final Graphics g) {
+    public void draw(Graphics g) {
         ((Graphics2D)g).setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_SPEED);
         g.drawImage(this.pageImage, 0, this.pageIndex * (this.getRenderingHeight() + this.getParent().getSpaceBetweenPages()), this.getRenderingWidth(), this.getRenderingHeight(), null);
     }

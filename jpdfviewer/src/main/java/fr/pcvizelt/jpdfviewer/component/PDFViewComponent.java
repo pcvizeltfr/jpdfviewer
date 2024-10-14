@@ -33,7 +33,7 @@ public class PDFViewComponent extends JComponent
         PDFViewComponent.PREVIEW_SPACE_BETWEEN_PAGES = 10;
     }
     
-    public PDFViewComponent(final File pdfFile) {
+    public PDFViewComponent(File pdfFile) {
         this.zoom = 1.0f;
         this.renderPageMap = new HashMap<Integer, PDFPage>();
         if (!pdfFile.exists()) {
@@ -61,7 +61,7 @@ public class PDFViewComponent extends JComponent
     }
     
     @Override
-    public void paint(final Graphics g) {
+    public void paint(Graphics g) {
         g.setColor(Color.red);
         g.drawString("test", 20, 20);
         int height = 0;
@@ -77,12 +77,12 @@ public class PDFViewComponent extends JComponent
         this.getParent().revalidate();
     }
     
-    public void setPreviewDotsPerInch(final int dpi) {
+    public void setPreviewDotsPerInch(int dpi) {
         PDFViewComponent.PREVIEW_DPI = dpi;
         this.load();
     }
     
-    public void setZoom(final float zoom) {
+    public void setZoom(float zoom) {
         this.zoom = zoom;
         this.updateView();
     }
@@ -95,7 +95,7 @@ public class PDFViewComponent extends JComponent
         return PDFViewComponent.PREVIEW_DPI;
     }
     
-    public void setSpaceBetweenPages(final int space) {
+    public void setSpaceBetweenPages(int space) {
         PDFViewComponent.PREVIEW_SPACE_BETWEEN_PAGES = space;
         this.load();
     }
@@ -108,12 +108,15 @@ public class PDFViewComponent extends JComponent
         return this.currentFile;
     }
     
-    public void setCurrentFile(final File currentFile) {
+    public void setCurrentFile(File currentFile) {
         this.currentFile = currentFile;
     }
     
     public void updateView() {
-        this.scrollRectToVisible(this.getBounds());
+    	this.rootScrollPane = (JScrollPane)this.getParent();
+    	
+    	
+    	
         this.repaint();
     }
 }
