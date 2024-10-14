@@ -6,11 +6,13 @@ import javax.swing.JFrame;
 
 public class TestApp
 {
-    public static void main(final String[] args) {
-        final File pdfFile = new File(args[0]);
-        final JFrame frame = new JFrame();
+    public static void main(String[] args) {
+    	args = new String[] { "D:/Cours/2A Centrale/Projet S7/calcul lagrangien v2/formulation faible.pdf" };
+        
+    	File pdfFile = new File(args[0]);
+        JFrame frame = new JFrame();
         frame.setTitle("JPDFViewer");
-        final JPDFViewer pdfViewer = new JPDFViewer(pdfFile);
+        JPDFViewer pdfViewer = new JPDFViewer(pdfFile);
         pdfViewer.getView().setPreviewDotsPerInch(150);
         frame.setSize(1280, 720);
         frame.add(pdfViewer);
