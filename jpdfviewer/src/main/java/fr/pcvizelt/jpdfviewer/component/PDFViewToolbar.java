@@ -1,46 +1,89 @@
 package fr.pcvizelt.jpdfviewer.component;
 
-import javax.swing.*;
-import java.awt.event.*;
-import java.io.*;
-import javax.swing.event.*;
-import fr.pcvizelt.jpdfviewer.*;
-import java.awt.*;
+import java.awt.Desktop;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
+
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JToolBar;
 
 public class PDFViewToolbar extends JToolBar
 {
     private static final long serialVersionUID = 1L;
     private File currentPdfFile;
+    
     protected JButton openPdf;
-    protected JSlider zoomSlider;
-    private ActionListener openPdfAL;
-    private ChangeListener zoomSliderCL;
+    protected JButton zoomIn;
+    protected JButton zoomOut;
+    protected JButton resetZoom;
+    protected JComboBox<String> currentZoom;
     
     public PDFViewToolbar(final File currentFile) {
-        this.openPdfAL = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    Desktop.getDesktop().open(currentPdfFile);
-                }
-                catch (IOException e2) {
-                    e2.printStackTrace();
-                }
-            }
-        };
-        this.zoomSliderCL = new ChangeListener() {
-            @Override
-            public void stateChanged(ChangeEvent e) {
-                PDFViewComponent pdfViewComp = ((JPDFViewer)PDFViewToolbar.this.getParent()).getView();
-                pdfViewComp.setZoom(PDFViewToolbar.this.zoomSlider.getValue() / 100.0f);
-            }
-        };
+        
+       
         this.currentPdfFile = currentFile;
         (this.openPdf = new JButton("Open PDF")).addActionListener(this.openPdfAL);
-        (this.zoomSlider = new JSlider(20, 1000)).setValue(100);
-        this.zoomSlider.addChangeListener(this.zoomSliderCL);
-        this.add(this.openPdf);
-        this.add(this.zoomSlider);
+        
+        zoomIn = new JButton("[+]");
+        zoomIn.addActionListener(zoomInAL);
+        zoomOut = new JButton("[-]");
+        zoomIn.addActionListener(zoomOutAL);
+        String[] zooms = new String[] {
+        		"50%",
+        		"100%",
+        		"150%",
+        		"200%",
+        		"300%",
+        		"400%",
+        		"600%",
+        		"1000%",
+        		"2000%",
+        };
+        
+        currentZoom = new JComboBox<String>(zooms);
+        currentZoom.setSelectedIndex(1);
+        currentZoom.setEditable(true);
+        
+        add(openPdf);
+        add(zoomIn);
+        add(currentZoom);
+        add(zoomOut);
     }
+    
+    /**
+     * 
+     * 	ACTION LISTENERS
+     * 
+     */
+    private ActionListener openPdfAL = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            try {
+                Desktop.getDesktop().open(currentPdfFile);
+            }
+            catch (IOException e2) {
+                e2.printStackTrace();
+            }
+        }
+    };
+    
+    private ActionListener zoomInAL = new ActionListener() {
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			
+		}
+	};
+	
+	 private ActionListener zoomOutAL = new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		};
     
 }
