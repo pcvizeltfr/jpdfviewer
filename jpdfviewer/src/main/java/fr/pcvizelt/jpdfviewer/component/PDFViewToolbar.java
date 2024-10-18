@@ -10,6 +10,8 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JToolBar;
 
+import fr.pcvizelt.jpdfviewer.JPDFViewer;
+
 public class PDFViewToolbar extends JToolBar
 {
     private static final long serialVersionUID = 1L;
@@ -25,12 +27,14 @@ public class PDFViewToolbar extends JToolBar
         
        
         this.currentPdfFile = currentFile;
-        (this.openPdf = new JButton("Open PDF")).addActionListener(this.openPdfAL);
+        
+        openPdf = new JButton("Open PDF");
+        openPdf.addActionListener(this.openPdfAL);
         
         zoomIn = new JButton("[+]");
         zoomIn.addActionListener(zoomInAL);
         zoomOut = new JButton("[-]");
-        zoomIn.addActionListener(zoomOutAL);
+        zoomOut.addActionListener(zoomOutAL);
         String[] zooms = new String[] {
         		"50%",
         		"100%",
@@ -75,6 +79,10 @@ public class PDFViewToolbar extends JToolBar
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			
+			PDFViewComponent view = ((JPDFViewer) getParent()).getView();
+			
+			view.setZoom(view.getZoom()*1.4f);
+			
 		}
 	};
 	
@@ -82,7 +90,9 @@ public class PDFViewToolbar extends JToolBar
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				PDFViewComponent view = ((JPDFViewer) getParent()).getView();
 				
+				view.setZoom(view.getZoom()/1.4f);
 			}
 		};
     
